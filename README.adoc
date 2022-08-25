@@ -1,0 +1,5 @@
+= photo-tools
+
+Photography tools
+
+Allows to see a image with GPS coordinates on the Google map.
