@@ -18,15 +18,9 @@ import java.util.Optional;
  * @author Yuriy Stul
  */
 public class ShowOnMap {
-    private final String path;
-
-    public ShowOnMap(String path) {
-        this.path = path;
-    }
-
-    public void showOnMap() {
+    public static void showOnMap(String path) {
         try {
-            Optional<TiffImageMetadata.GPSInfo> gpsInfo = extractGPSInfo();
+            Optional<TiffImageMetadata.GPSInfo> gpsInfo = extractGPSInfo(path);
             if (gpsInfo.isEmpty()) {
                 System.out.println("No GPS in the image");
                 return;
@@ -45,7 +39,7 @@ public class ShowOnMap {
         }
     }
 
-    private Optional<TiffImageMetadata.GPSInfo> extractGPSInfo() {
+    private static Optional<TiffImageMetadata.GPSInfo> extractGPSInfo(String path) {
         try {
             ImageMetadata metadata = Imaging.getMetadata(new File(path));
             if (metadata instanceof JpegImageMetadata jpegImageMetadata) {

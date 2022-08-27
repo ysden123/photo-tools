@@ -10,12 +10,15 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-        System.out.println("Hello!");
+        String path = args.length > 0 ? args[0] : null;
 
-        System.out.println("Enter path to an image:");
-        Scanner scanner = new Scanner(System.in);
-        String path = scanner.nextLine();
-        scanner.close();
-        new ShowOnMap(path).showOnMap();
+        if (path == null) {
+            System.out.println("Enter path to an image:");
+            Scanner scanner = new Scanner(System.in);
+            path = scanner.nextLine();
+            scanner.close();
+        }
+
+        ShowOnMap.showOnMap(path);
     }
 }
