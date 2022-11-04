@@ -4,21 +4,22 @@
 
 package com.stulsoft.photo.tools;
 
-import com.stulsoft.photo.tools.gps.ShowOnMap;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-import java.util.Scanner;
-
-public class App {
+public class App extends Application {
     public static void main(String[] args) {
-        String path = args.length > 0 ? args[0] : null;
+        launch();
+    }
 
-        if (path == null) {
-            System.out.println("Enter path to an image:");
-            Scanner scanner = new Scanner(System.in);
-            path = scanner.nextLine();
-            scanner.close();
-        }
-
-        ShowOnMap.showOnMap(path);
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        primaryStage.setTitle("Show image on map");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }

@@ -14,43 +14,56 @@ import java.io.File;
 import java.net.URI;
 import java.util.Optional;
 
+
 /**
  * @author Yuriy Stul
  */
 public class ShowOnMap {
-    public static void showOnMap(String path) {
+    record ExtractResult(Optional<TiffImageMetadata.GPSInfo> gpsInfo, Optional<String> error) {
+    }
+
+    public static Optional<String> showOnMap(String path) {
         try {
-            Optional<TiffImageMetadata.GPSInfo> gpsInfo = extractGPSInfo(path);
-            if (gpsInfo.isEmpty()) {
-                System.out.println("No GPS in the image");
-                return;
+            var extractResult = extractGPSInfo(path);
+            if (extractResult.gpsInfo().isPresent()) {
+                var gpsInfo = extractResult.gpsInfo().get();
+                String searchURL = String.format("https://www.google.com/maps/search/?api=1&query=%f%%2C%f",
+                        gpsInfo.getLatitudeAsDegreesNorth(), gpsInfo.getLongitudeAsDegreesEast());
+                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    Desktop.getDesktop().browse(new URI(searchURL));
+                    return Optional.empty();
+                } else {
+                    return Optional.of("Cannot start browser");
+                }
             }
 
-            String searchURL = String.format("https://www.google.com/maps/search/?api=1&query=%f%%2C%f",
-                    gpsInfo.get().getLatitudeAsDegreesNorth(), gpsInfo.get().getLongitudeAsDegreesEast());
-            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                Desktop.getDesktop().browse(new URI(searchURL));
-            } else {
-                System.out.println("Cannot start browser");
-                System.out.println(searchURL);
+            if (extractResult.error().isPresent()) {
+                return extractResult.error();
             }
+
+            return Optional.empty();
+
         } catch (Exception exception) {
-            exception.printStackTrace();
+            return Optional.of(exception.getMessage());
         }
     }
 
-    private static Optional<TiffImageMetadata.GPSInfo> extractGPSInfo(String path) {
+    private static ExtractResult extractGPSInfo(String path) {
         try {
             ImageMetadata metadata = Imaging.getMetadata(new File(path));
+            TiffImageMetadata.GPSInfo gpsInfo = null;
             if (metadata instanceof JpegImageMetadata jpegImageMetadata) {
-                return Optional.ofNullable(jpegImageMetadata.getExif().getGPS());
+                gpsInfo = jpegImageMetadata.getExif().getGPS();
             } else if (metadata instanceof TiffImageMetadata tiffImageMetadata) {
-                return Optional.ofNullable(tiffImageMetadata.getGPS());
+                gpsInfo = tiffImageMetadata.getGPS();
             }
-            return Optional.empty();
+            if (gpsInfo == null) {
+                return new ExtractResult(Optional.empty(), Optional.of("No GPS in the image"));
+            } else {
+                return new ExtractResult(Optional.of(gpsInfo), Optional.empty());
+            }
         } catch (Exception exception) {
-            exception.printStackTrace();
-            return Optional.empty();
+            return new ExtractResult(Optional.empty(), Optional.of(exception.getMessage()));
         }
     }
 }
