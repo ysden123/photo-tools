@@ -34,8 +34,9 @@ public class MainController implements Initializable {
 
         var error = ShowOnMap.showOnMap(path.getText());
         error.ifPresent(msg -> {
-            var alert = new Alert(Alert.AlertType.ERROR, msg);
+            var alert = new Alert(Alert.AlertType.WARNING, msg);
             alert.setTitle("A problem with image file");
+            alert.setHeaderText(null);
             alert.show();
         });
     }
