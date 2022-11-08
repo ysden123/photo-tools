@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.stulsoft"
-version = "2.0.1"
+version = "2.1.0"
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -21,9 +21,18 @@ application {
     mainModule.set("com.stulsoft.photo.tools")
     // Define the main class for the application.
     mainClass.set("com.stulsoft.photo.tools.App")
+    applicationDefaultJvmArgs = listOf("-DimplementationVersion=$version")
 }
 
 javafx {
     version = "19"
     modules("javafx.controls", "javafx.fxml")
+}
+
+tasks.jar{
+    manifest{
+        attributes(
+            "Implementation-Version" to archiveVersion
+        )
+    }
 }
