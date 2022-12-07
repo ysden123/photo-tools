@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. StulSoft
+ */
+
 
 version = "2.2.0"
 

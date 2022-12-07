@@ -13,8 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
-import com.stulsoft.photo.slib.emptydir.EmptyDirService;
-import com.stulsoft.photo.slib.emptydir.EmptyDirResult;
+import com.stulsoft.photo.slib.EmptyDirService;
+import com.stulsoft.photo.slib.EmptyDirResult;
 
 public class EmptyDirController {
     private File lastDirectory = null;

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. StulSoft
+ */
+
 package com.stulsoft.gradle.transform.javamodules;
 
 import org.gradle.api.artifacts.transform.InputArtifact;

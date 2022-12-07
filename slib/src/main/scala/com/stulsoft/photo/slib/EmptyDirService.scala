@@ -1,4 +1,8 @@
-package com.stulsoft.photo.slib.emptydir
+/*
+ * Copyright (c) 2022. StulSoft
+ */
+
+package com.stulsoft.photo.slib
 
 import java.nio.file.{Files, NoSuchFileException, Path, Paths}
 import scala.jdk.CollectionConverters._

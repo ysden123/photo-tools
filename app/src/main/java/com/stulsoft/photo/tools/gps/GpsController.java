@@ -4,6 +4,7 @@
 
 package com.stulsoft.photo.tools.gps;
 
+import com.stulsoft.photo.slib.GpsService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -31,13 +32,13 @@ public class GpsController  implements Initializable {
             return;
         }
 
-        var error = ShowOnMap.showOnMap(path.getText());
-        error.ifPresent(msg -> {
-            var alert = new Alert(Alert.AlertType.WARNING, msg);
+        var error = GpsService.showOnMap(path.getText());
+        if (!error.isEmpty()) {
+            var alert = new Alert(Alert.AlertType.WARNING, error);
             alert.setTitle("A problem with image file");
             alert.setHeaderText(null);
             alert.show();
-        });
+        }
     }
 
     public void onFileSelect(MouseEvent event) {
