@@ -6,6 +6,8 @@ module com.stulsoft.photo.tools {
 
     requires org.apache.commons.imaging;
 
+    requires com.stulsoft.photo.slib.emptydir;
+
     opens com.stulsoft.photo.tools to javafx.fxml;
     opens com.stulsoft.photo.tools.gps to javafx.fxml;
     opens com.stulsoft.photo.tools.emptydir to javafx.fxml;

@@ -13,6 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
+import com.stulsoft.photo.slib.emptydir.EmptyDirService;
+import com.stulsoft.photo.slib.emptydir.EmptyDirResult;
 
 public class EmptyDirController {
     private File lastDirectory = null;
@@ -45,14 +47,11 @@ public class EmptyDirController {
         }
 
         EmptyDirResult result = EmptyDirService.findEmptyDirs(path.getText());
-        if (result.error().isEmpty()) {
-            if (result.result().isPresent() && !result.result().get().isEmpty()) {
-                emptyDirs.setText(String.join("\n", result.result().get()));
-            }else {
-                emptyDirs.setText("No empty directories found");
-            }
+
+        if (result.error().isEmpty()){
+            emptyDirs.setText(result.result());
         }else{
-            var alert = new Alert(Alert.AlertType.WARNING, result.error().get());
+            var alert = new Alert(Alert.AlertType.WARNING, result.error());
             alert.setTitle("A problem with a directory");
             alert.setHeaderText(null);
             alert.show();

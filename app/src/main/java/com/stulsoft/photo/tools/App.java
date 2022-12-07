@@ -4,6 +4,7 @@
 
 package com.stulsoft.photo.tools;
 
+import com.stulsoft.photo.slib.emptydir.EmptyDirService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import javafx.stage.Stage;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
@@ -24,6 +26,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        var result = EmptyDirService.findEmptyDirs(".");
+        System.out.printf("result: %s%n", result);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setTitle("Photo Tools. " + findVersion());
