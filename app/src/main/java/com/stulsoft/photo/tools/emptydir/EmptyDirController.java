@@ -4,6 +4,9 @@
 
 package com.stulsoft.photo.tools.emptydir;
 
+import com.stulsoft.photo.slib.EmptyDirResult;
+import com.stulsoft.photo.slib.EmptyDirService;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -13,8 +16,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
-import com.stulsoft.photo.slib.EmptyDirService;
-import com.stulsoft.photo.slib.EmptyDirResult;
 
 public class EmptyDirController {
     private File lastDirectory = null;
@@ -40,21 +41,29 @@ public class EmptyDirController {
     }
 
     public void onFind() {
-        emptyDirs.setText("");
-
         if (path.getText().isEmpty()) {
             return;
         }
 
-        EmptyDirResult result = EmptyDirService.findEmptyDirs(path.getText());
+        emptyDirs.setText("Please wait. Processing ...");
 
-        if (result.error().isEmpty()){
-            emptyDirs.setText(result.result());
-        }else{
-            var alert = new Alert(Alert.AlertType.WARNING, result.error());
-            alert.setTitle("A problem with a directory");
-            alert.setHeaderText(null);
-            alert.show();
+        try {
+            Thread.sleep(50);
+        } catch (Exception ignore) {
         }
+
+        new Thread(() -> Platform.runLater(() -> {
+            EmptyDirResult result = EmptyDirService.findEmptyDirs(path.getText());
+
+            if (result.error().isEmpty()) {
+                emptyDirs.setText(result.result());
+            } else {
+                emptyDirs.setText("");
+                var alert = new Alert(Alert.AlertType.WARNING, result.error());
+                alert.setTitle("A problem with a directory");
+                alert.setHeaderText(null);
+                alert.show();
+            }
+        })).start();
     }
 }
