@@ -4,9 +4,7 @@
 
 package com.stulsoft.photo.tools.emptydir;
 
-import com.stulsoft.photo.slib.EmptyDirResult;
-import com.stulsoft.photo.slib.EmptyDirService;
-import javafx.application.Platform;
+import com.stulsoft.photo.slib.emptydir.EmptyDirService;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -40,23 +38,19 @@ public class EmptyDirController {
         }
     }
 
-    public void onFind() {
+    public void onFind(){
         if (path.getText().isEmpty()) {
             return;
         }
-
         emptyDirs.setText("Please wait. Processing ...");
 
-        try {
-            Thread.sleep(50);
-        } catch (Exception ignore) {
-        }
-
-        new Thread(() -> Platform.runLater(() -> {
-            EmptyDirResult result = EmptyDirService.findEmptyDirs(path.getText());
-
+        EmptyDirService.findEmptyDirsAsync(path.getText(), result ->{
             if (result.error().isEmpty()) {
-                emptyDirs.setText(result.result());
+                if (result.result().isEmpty()){
+                    emptyDirs.setText("No empty directory found");
+                } else {
+                    emptyDirs.setText(result.result());
+                }
             } else {
                 emptyDirs.setText("");
                 var alert = new Alert(Alert.AlertType.WARNING, result.error());
@@ -64,6 +58,6 @@ public class EmptyDirController {
                 alert.setHeaderText(null);
                 alert.show();
             }
-        })).start();
+        });
     }
 }

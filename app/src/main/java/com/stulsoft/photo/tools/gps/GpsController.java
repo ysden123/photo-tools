@@ -4,7 +4,7 @@
 
 package com.stulsoft.photo.tools.gps;
 
-import com.stulsoft.photo.slib.GpsService;
+import com.stulsoft.photo.slib.gps.GpsService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;

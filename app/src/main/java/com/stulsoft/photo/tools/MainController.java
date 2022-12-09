@@ -4,28 +4,17 @@
 
 package com.stulsoft.photo.tools;
 
+import com.stulsoft.photo.slib.utils.SystemUtils;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
-    private File lastDirectory = null;
-
-    @FXML
-    private TextField path;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
@@ -59,6 +48,7 @@ public class MainController implements Initializable {
     }
 
     public void onQuit() {
+        SystemUtils.shutdown();
         Platform.exit();
     }
 }

@@ -3,7 +3,7 @@
  */
 
 
-version = "2.2.1"
+version = "2.2.2"
 
 plugins {
     // Apply the java Plugin to add support for Java.

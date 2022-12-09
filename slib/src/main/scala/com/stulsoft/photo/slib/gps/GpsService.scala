@@ -2,7 +2,7 @@
  * Copyright (c) 2022. StulSoft
  */
 
-package com.stulsoft.photo.slib
+package com.stulsoft.photo.slib.gps
 
 import org.apache.commons.imaging.Imaging
 import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata

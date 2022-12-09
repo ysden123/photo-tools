@@ -4,10 +4,10 @@
 
 package com.stulsoft.photo.tools;
 
+import com.stulsoft.photo.slib.utils.SystemUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.net.JarURLConnection;
@@ -29,6 +29,7 @@ public class App extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setTitle("Photo Tools. " + findVersion());
         primaryStage.setScene(scene);
+        primaryStage.setOnCloseRequest(event -> SystemUtils.shutdown());
         IconUtils.setIcon(primaryStage);
         primaryStage.show();
     }
